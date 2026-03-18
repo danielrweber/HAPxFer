@@ -1,0 +1,469 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		11274CC384646C21A82148C2 /* SMBClientService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9C586CFB8B901CB0B9EE96F /* SMBClientService.swift */; };
+		14E0AC60664C9A50A418CFCC /* FileFilters.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB16DE4CB80B2B4FBAA06549 /* FileFilters.swift */; };
+		18B4969E234F86F0E26C288B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F6B3E3943E8E9AC0AEE9BE4D /* Assets.xcassets */; };
+		19B1C16D290BF6185FF81B2E /* WakeOnLAN.swift in Sources */ = {isa = PBXBuildFile; fileRef = A80C7EA8D275DC7F4AE07FB0 /* WakeOnLAN.swift */; };
+		1D6B25596D33C140DE998793 /* LibSMBClientService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ED26DF59EEC712EFA1E3E26 /* LibSMBClientService.swift */; };
+		235E5937B8426A267D8ECF81 /* FolderMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B0A8721E01D5FC95DC62BB6 /* FolderMonitor.swift */; };
+		2CBA7893EA68C991E1F6CA23 /* SyncLogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8025BEC1AD9720CB399A4CD7 /* SyncLogView.swift */; };
+		3274D1EA1F358F517FCEE296 /* AboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D509FD01539611F696EBD2C /* AboutView.swift */; };
+		3A1C863A834A50D431CB7C90 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D5968D3B36E318D2457021 /* SettingsView.swift */; };
+		3EAEDF86C75B46B291C3EEF3 /* hapxfer_smb.conf in Resources */ = {isa = PBXBuildFile; fileRef = 49414E57D48BBB9A3B030613 /* hapxfer_smb.conf */; };
+		413EC497747383BCD9AD46F6 /* AppIcon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 9C9A815BF0E6286C4C4FEF63 /* AppIcon.icns */; };
+		573D36FB944CE81B20A324D4 /* SyncRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D54D9C88019688C9C180A50 /* SyncRecord.swift */; };
+		590500926F3F441AF8F7423B /* DeviceStatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FA9E4595C74DE55A4C305A5 /* DeviceStatusView.swift */; };
+		6C71E459AA0A6C2F9566930B /* SMBService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87C1C341F09A8D2AC871E075 /* SMBService.swift */; };
+		72DE7C9F5471BE838CCF8C72 /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51EC6DC0A05FF005E38E28EF /* AppState.swift */; };
+		7948D68BCE769C9FB2F7DF48 /* SyncEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 545A128D45914DC2174562C5 /* SyncEngine.swift */; };
+		855D3B03E80DD855A2EF8F0E /* MonitoredFolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F843492E1CE01265DD090FA /* MonitoredFolder.swift */; };
+		9265F316C53CA17D23EAC382 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82270B81383B4CF81AF5CCFA /* MainView.swift */; };
+		95121351656C505313554204 /* SyncProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D7C530831C78BADDBC61FA /* SyncProgressView.swift */; };
+		A328AC09D9705D2CEB084ED7 /* RemoteBrowserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC662592A86ACE7EE9514BC1 /* RemoteBrowserView.swift */; };
+		BF98E1BA4D914164F7B8AD97 /* DeviceDiscovery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CA9A952D4CD8D83C398F62C /* DeviceDiscovery.swift */; };
+		CB92E6F733141680C9E48E43 /* FolderListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D96AEFF55462164672751B2 /* FolderListView.swift */; };
+		F82C55476E286597FBDD0F0C /* SyncLogEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEF384E58B0EE50F3D26EC0E /* SyncLogEntry.swift */; };
+		F9A1A894C820ED92DFACB319 /* HAPxFerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70869D29024818CEC194E9CE /* HAPxFerApp.swift */; };
+		FD6A70E3080F533E6687BAA3 /* DeviceInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59F2DA7BBE699956296800C2 /* DeviceInfo.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		0027E2BDFB52B58BB97751C0 /* HAPxFer.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = HAPxFer.entitlements; sourceTree = "<group>"; };
+		0D509FD01539611F696EBD2C /* AboutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutView.swift; sourceTree = "<group>"; };
+		20198FB2F9A5E3BF5C1AF8C8 /* HAPxFer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HAPxFer.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		2D96AEFF55462164672751B2 /* FolderListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FolderListView.swift; sourceTree = "<group>"; };
+		40D5968D3B36E318D2457021 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		42D7C530831C78BADDBC61FA /* SyncProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncProgressView.swift; sourceTree = "<group>"; };
+		4658A1C7652DB4C3F688DF3E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		49414E57D48BBB9A3B030613 /* hapxfer_smb.conf */ = {isa = PBXFileReference; path = hapxfer_smb.conf; sourceTree = "<group>"; };
+		4ED26DF59EEC712EFA1E3E26 /* LibSMBClientService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibSMBClientService.swift; sourceTree = "<group>"; };
+		51EC6DC0A05FF005E38E28EF /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
+		545A128D45914DC2174562C5 /* SyncEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncEngine.swift; sourceTree = "<group>"; };
+		59F2DA7BBE699956296800C2 /* DeviceInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceInfo.swift; sourceTree = "<group>"; };
+		5B0A8721E01D5FC95DC62BB6 /* FolderMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FolderMonitor.swift; sourceTree = "<group>"; };
+		5D54D9C88019688C9C180A50 /* SyncRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncRecord.swift; sourceTree = "<group>"; };
+		70869D29024818CEC194E9CE /* HAPxFerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HAPxFerApp.swift; sourceTree = "<group>"; };
+		8025BEC1AD9720CB399A4CD7 /* SyncLogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncLogView.swift; sourceTree = "<group>"; };
+		82270B81383B4CF81AF5CCFA /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
+		87C1C341F09A8D2AC871E075 /* SMBService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SMBService.swift; sourceTree = "<group>"; };
+		8CA9A952D4CD8D83C398F62C /* DeviceDiscovery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceDiscovery.swift; sourceTree = "<group>"; };
+		9C9A815BF0E6286C4C4FEF63 /* AppIcon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = AppIcon.icns; sourceTree = "<group>"; };
+		9F843492E1CE01265DD090FA /* MonitoredFolder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonitoredFolder.swift; sourceTree = "<group>"; };
+		9FA9E4595C74DE55A4C305A5 /* DeviceStatusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceStatusView.swift; sourceTree = "<group>"; };
+		A80C7EA8D275DC7F4AE07FB0 /* WakeOnLAN.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WakeOnLAN.swift; sourceTree = "<group>"; };
+		A9C586CFB8B901CB0B9EE96F /* SMBClientService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SMBClientService.swift; sourceTree = "<group>"; };
+		AC662592A86ACE7EE9514BC1 /* RemoteBrowserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteBrowserView.swift; sourceTree = "<group>"; };
+		AEF384E58B0EE50F3D26EC0E /* SyncLogEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncLogEntry.swift; sourceTree = "<group>"; };
+		EB16DE4CB80B2B4FBAA06549 /* FileFilters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileFilters.swift; sourceTree = "<group>"; };
+		F6B3E3943E8E9AC0AEE9BE4D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		8A266B30440E5A7E25050D86 /* HAPxFer */ = {
+			isa = PBXGroup;
+			children = (
+				51EC6DC0A05FF005E38E28EF /* AppState.swift */,
+				F6B3E3943E8E9AC0AEE9BE4D /* Assets.xcassets */,
+				0027E2BDFB52B58BB97751C0 /* HAPxFer.entitlements */,
+				70869D29024818CEC194E9CE /* HAPxFerApp.swift */,
+				4658A1C7652DB4C3F688DF3E /* Info.plist */,
+				C29E0183A5ADF6FBE354278C /* Models */,
+				BA8454289F95B641CF15B773 /* Resources */,
+				EC2472419091EDBEDF227D69 /* Services */,
+				9D0E25AF6756E95FCE9A918C /* Utilities */,
+				DC7BC97CA4CB361061888763 /* Views */,
+			);
+			path = HAPxFer;
+			sourceTree = "<group>";
+		};
+		8AC96AC23DDB356C2084AD4F /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				20198FB2F9A5E3BF5C1AF8C8 /* HAPxFer.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		9D0E25AF6756E95FCE9A918C /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				EB16DE4CB80B2B4FBAA06549 /* FileFilters.swift */,
+			);
+			path = Utilities;
+			sourceTree = "<group>";
+		};
+		BA8454289F95B641CF15B773 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				9C9A815BF0E6286C4C4FEF63 /* AppIcon.icns */,
+				49414E57D48BBB9A3B030613 /* hapxfer_smb.conf */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		C29E0183A5ADF6FBE354278C /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				59F2DA7BBE699956296800C2 /* DeviceInfo.swift */,
+				9F843492E1CE01265DD090FA /* MonitoredFolder.swift */,
+				AEF384E58B0EE50F3D26EC0E /* SyncLogEntry.swift */,
+				5D54D9C88019688C9C180A50 /* SyncRecord.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		D2714F6BFC9489A4668294AF = {
+			isa = PBXGroup;
+			children = (
+				8A266B30440E5A7E25050D86 /* HAPxFer */,
+				8AC96AC23DDB356C2084AD4F /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		DC7BC97CA4CB361061888763 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				0D509FD01539611F696EBD2C /* AboutView.swift */,
+				9FA9E4595C74DE55A4C305A5 /* DeviceStatusView.swift */,
+				2D96AEFF55462164672751B2 /* FolderListView.swift */,
+				82270B81383B4CF81AF5CCFA /* MainView.swift */,
+				AC662592A86ACE7EE9514BC1 /* RemoteBrowserView.swift */,
+				40D5968D3B36E318D2457021 /* SettingsView.swift */,
+				8025BEC1AD9720CB399A4CD7 /* SyncLogView.swift */,
+				42D7C530831C78BADDBC61FA /* SyncProgressView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		EC2472419091EDBEDF227D69 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				8CA9A952D4CD8D83C398F62C /* DeviceDiscovery.swift */,
+				5B0A8721E01D5FC95DC62BB6 /* FolderMonitor.swift */,
+				4ED26DF59EEC712EFA1E3E26 /* LibSMBClientService.swift */,
+				A9C586CFB8B901CB0B9EE96F /* SMBClientService.swift */,
+				87C1C341F09A8D2AC871E075 /* SMBService.swift */,
+				545A128D45914DC2174562C5 /* SyncEngine.swift */,
+				A80C7EA8D275DC7F4AE07FB0 /* WakeOnLAN.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		7C47821DF8AD47A18005FA12 /* HAPxFer */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9E572C440116FFF0ADECDA64 /* Build configuration list for PBXNativeTarget "HAPxFer" */;
+			buildPhases = (
+				D0095AF48A06E4FCBF77E0FD /* Sources */,
+				AB6E81A50081A3BAD1C88CAA /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = HAPxFer;
+			packageProductDependencies = (
+			);
+			productName = HAPxFer;
+			productReference = 20198FB2F9A5E3BF5C1AF8C8 /* HAPxFer.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		94D748B8683021C45DBACBAC /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1600;
+				TargetAttributes = {
+				};
+			};
+			buildConfigurationList = D764E5BD6E05B7FFB4B8209C /* Build configuration list for PBXProject "HAPxFer" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = D2714F6BFC9489A4668294AF;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 8AC96AC23DDB356C2084AD4F /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				7C47821DF8AD47A18005FA12 /* HAPxFer */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		AB6E81A50081A3BAD1C88CAA /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				413EC497747383BCD9AD46F6 /* AppIcon.icns in Resources */,
+				18B4969E234F86F0E26C288B /* Assets.xcassets in Resources */,
+				3EAEDF86C75B46B291C3EEF3 /* hapxfer_smb.conf in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		D0095AF48A06E4FCBF77E0FD /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3274D1EA1F358F517FCEE296 /* AboutView.swift in Sources */,
+				72DE7C9F5471BE838CCF8C72 /* AppState.swift in Sources */,
+				BF98E1BA4D914164F7B8AD97 /* DeviceDiscovery.swift in Sources */,
+				FD6A70E3080F533E6687BAA3 /* DeviceInfo.swift in Sources */,
+				590500926F3F441AF8F7423B /* DeviceStatusView.swift in Sources */,
+				14E0AC60664C9A50A418CFCC /* FileFilters.swift in Sources */,
+				CB92E6F733141680C9E48E43 /* FolderListView.swift in Sources */,
+				235E5937B8426A267D8ECF81 /* FolderMonitor.swift in Sources */,
+				F9A1A894C820ED92DFACB319 /* HAPxFerApp.swift in Sources */,
+				1D6B25596D33C140DE998793 /* LibSMBClientService.swift in Sources */,
+				9265F316C53CA17D23EAC382 /* MainView.swift in Sources */,
+				855D3B03E80DD855A2EF8F0E /* MonitoredFolder.swift in Sources */,
+				A328AC09D9705D2CEB084ED7 /* RemoteBrowserView.swift in Sources */,
+				11274CC384646C21A82148C2 /* SMBClientService.swift in Sources */,
+				6C71E459AA0A6C2F9566930B /* SMBService.swift in Sources */,
+				3A1C863A834A50D431CB7C90 /* SettingsView.swift in Sources */,
+				7948D68BCE769C9FB2F7DF48 /* SyncEngine.swift in Sources */,
+				F82C55476E286597FBDD0F0C /* SyncLogEntry.swift in Sources */,
+				2CBA7893EA68C991E1F6CA23 /* SyncLogView.swift in Sources */,
+				95121351656C505313554204 /* SyncProgressView.swift in Sources */,
+				573D36FB944CE81B20A324D4 /* SyncRecord.swift in Sources */,
+				19B1C16D290BF6185FF81B2E /* WakeOnLAN.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		0EB08843032F5D63B298D750 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = HAPxFer/HAPxFer.entitlements;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				HEADER_SEARCH_PATHS = (
+					/opt/homebrew/include,
+				);
+				INFOPLIST_FILE = HAPxFer/Info.plist;
+				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "HAPxFer needs local network access to discover and transfer files to your Sony HAP-Z1ES player.";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					/opt/homebrew/lib,
+				);
+				MARKETING_VERSION = 1.0.0;
+				OTHER_LDFLAGS = (
+					"-lsmbclient",
+					"-L/opt/homebrew/lib",
+					"-rpath",
+					/opt/homebrew/lib,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.hapxfer.HAPxFer;
+				SDKROOT = macosx;
+				SWIFT_OBJC_BRIDGING_HEADER = "HAPxFer/SMBCModule/HAPxFer-Bridging-Header.h";
+				SWIFT_STRICT_CONCURRENCY = complete;
+				SWIFT_VERSION = 6.0;
+			};
+			name = Debug;
+		};
+		10341EE69E0541130B28873D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 26.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		5018D7504A0294FC4569771D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 26.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		FB5D51E0B9AF53B2FC93C0E4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = HAPxFer/HAPxFer.entitlements;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				HEADER_SEARCH_PATHS = (
+					/opt/homebrew/include,
+				);
+				INFOPLIST_FILE = HAPxFer/Info.plist;
+				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "HAPxFer needs local network access to discover and transfer files to your Sony HAP-Z1ES player.";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					/opt/homebrew/lib,
+				);
+				MARKETING_VERSION = 1.0.0;
+				OTHER_LDFLAGS = (
+					"-lsmbclient",
+					"-L/opt/homebrew/lib",
+					"-rpath",
+					/opt/homebrew/lib,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.hapxfer.HAPxFer;
+				SDKROOT = macosx;
+				SWIFT_OBJC_BRIDGING_HEADER = "HAPxFer/SMBCModule/HAPxFer-Bridging-Header.h";
+				SWIFT_STRICT_CONCURRENCY = complete;
+				SWIFT_VERSION = 6.0;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		9E572C440116FFF0ADECDA64 /* Build configuration list for PBXNativeTarget "HAPxFer" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0EB08843032F5D63B298D750 /* Debug */,
+				FB5D51E0B9AF53B2FC93C0E4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		D764E5BD6E05B7FFB4B8209C /* Build configuration list for PBXProject "HAPxFer" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				10341EE69E0541130B28873D /* Debug */,
+				5018D7504A0294FC4569771D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 94D748B8683021C45DBACBAC /* Project object */;
+}
