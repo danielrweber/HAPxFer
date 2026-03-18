@@ -17,6 +17,7 @@
 import Foundation
 import SwiftData
 import OSLog
+import UserNotifications
 
 private let logger = Logger(subsystem: "com.hapxfer", category: "AppState")
 
@@ -257,6 +258,29 @@ final class AppState {
         await syncEngine?.syncAll(syncDeletions: syncDeletions)
         lastAutoSync = Date()
         logger.info("Auto-sync complete")
+        sendSyncNotification()
+    }
+
+    /// Send a macOS notification when sync finishes.
+    private func sendSyncNotification() {
+        guard let engine = syncEngine else { return }
+
+        let uploaded = engine.completedCount
+        let failed = engine.failedCount
+        guard uploaded > 0 || failed > 0 else { return }
+
+        let content = UNMutableNotificationContent()
+        content.title = "Sync Complete"
+        if failed > 0 {
+            content.body = "\(uploaded) file(s) uploaded, \(failed) failed."
+            content.sound = .default
+        } else {
+            content.body = "\(uploaded) file(s) uploaded successfully."
+        }
+
+        let request = UNNotificationRequest(identifier: "syncComplete-\(Date().timeIntervalSince1970)",
+                                            content: content, trigger: nil)
+        UNUserNotificationCenter.current().add(request)
     }
 
     // MARK: - Periodic Sync Timer

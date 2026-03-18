@@ -16,6 +16,7 @@
 
 import SwiftUI
 import SwiftData
+import UserNotifications
 
 @main
 struct HAPxFerApp: App {
@@ -31,6 +32,7 @@ struct HAPxFerApp: App {
                 .onAppear {
                     appDelegate.menuBarEnabled = menuBarEnabled
                     MetadataService.cleanupStaleTempFiles()
+                    UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound]) { _, _ in }
                 }
         }
         .modelContainer(for: [MonitoredFolder.self, SyncRecord.self, SyncLogEntry.self])

@@ -67,6 +67,9 @@ final class SyncEngine {
     var isSyncing: Bool = false
     var lastError: String?
     var lastSyncDate: Date?
+    /// Counts from the most recent sync run (reset at the start of each sync).
+    var completedCount: Int = 0
+    var failedCount: Int = 0
 
     var overallProgress: Double {
         guard totalBytesToTransfer > 0 else { return 0 }
@@ -101,6 +104,8 @@ final class SyncEngine {
             totalBytesToTransfer = 0
             totalBytesTransferred = 0
             deletionCount = 0
+            completedCount = 0
+            failedCount = 0
 
             for folder in folders {
                 let folderPath = folder.path
@@ -150,6 +155,7 @@ final class SyncEngine {
                             if transferError == nil {
                                 record.status = .synced
                                 record.syncDate = Date()
+                                completedCount += 1
                                 // Log successful upload
                                 let logEntry = SyncLogEntry(
                                     action: .uploaded,
@@ -160,6 +166,7 @@ final class SyncEngine {
                                 context.insert(logEntry)
                             } else {
                                 record.status = .failed
+                                failedCount += 1
                                 // Log failed upload
                                 let logEntry = SyncLogEntry(
                                     action: .uploaded,
