@@ -16,6 +16,7 @@
 
 import SwiftUI
 import SwiftData
+import UniformTypeIdentifiers
 
 struct SyncLogView: View {
     @Environment(\.modelContext) private var modelContext
@@ -23,6 +24,7 @@ struct SyncLogView: View {
 
     @State private var filter: LogFilter = .all
     @State private var searchText: String = ""
+    @State private var showExportPicker = false
 
     enum LogFilter: String, CaseIterable {
         case all = "All"
@@ -61,6 +63,10 @@ struct SyncLogView: View {
                 Spacer()
 
                 if !allEntries.isEmpty {
+                    Button("Export Log...") {
+                        showExportPicker = true
+                    }
+
                     Button("Clear Log") {
                         clearLog()
                     }
@@ -141,6 +147,18 @@ struct SyncLogView: View {
                 .padding(.vertical, 6)
             }
         }
+        .fileExporter(
+            isPresented: $showExportPicker,
+            document: LogExportDocument(entries: filteredEntries),
+            contentType: .commaSeparatedText,
+            defaultFilename: "HAPxFer_SyncLog_\(Self.dateStamp).csv"
+        ) { _ in }
+    }
+
+    private static var dateStamp: String {
+        let f = DateFormatter()
+        f.dateFormat = "yyyy-MM-dd"
+        return f.string(from: Date())
     }
 
     private func clearLog() {
@@ -148,6 +166,35 @@ struct SyncLogView: View {
             modelContext.delete(entry)
         }
         try? modelContext.save()
+    }
+}
+
+/// Wraps the sync log as a CSV file for the fileExporter.
+struct LogExportDocument: FileDocument {
+    static var readableContentTypes: [UTType] { [.commaSeparatedText] }
+
+    let csv: String
+
+    init(entries: [SyncLogEntry]) {
+        var lines = ["Timestamp,Action,Status,File,Folder,Size,Error"]
+        let df = ISO8601DateFormatter()
+        for e in entries {
+            let status = e.success ? "OK" : "FAILED"
+            let action = e.action == .uploaded ? "Upload" : "Delete"
+            let error = (e.errorMessage ?? "").replacingOccurrences(of: ",", with: ";")
+            let file = e.relativePath.replacingOccurrences(of: ",", with: ";")
+            let folder = e.folderName.replacingOccurrences(of: ",", with: ";")
+            lines.append("\(df.string(from: e.timestamp)),\(action),\(status),\(file),\(folder),\(e.fileSize),\(error)")
+        }
+        csv = lines.joined(separator: "\n")
+    }
+
+    init(configuration: ReadConfiguration) throws {
+        csv = ""
+    }
+
+    func fileWrapper(configuration: WriteConfiguration) throws -> FileWrapper {
+        FileWrapper(regularFileWithContents: csv.data(using: .utf8) ?? Data())
     }
 }
 
