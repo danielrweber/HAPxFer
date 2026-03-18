@@ -29,6 +29,7 @@ struct HAPxFerApp: App {
             SettingsView()
                 .environment(appState)
         }
+        .modelContainer(for: [MonitoredFolder.self, SyncRecord.self, SyncLogEntry.self])
 
         Window("About HAPxFer", id: "about") {
             AboutView()

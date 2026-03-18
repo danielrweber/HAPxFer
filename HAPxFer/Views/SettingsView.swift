@@ -1,7 +1,9 @@
 import SwiftUI
+import SwiftData
 
 struct SettingsView: View {
     @Environment(AppState.self) private var appState
+    @Query(sort: \MonitoredFolder.path) private var folders: [MonitoredFolder]
 
     @AppStorage("shareName") private var shareName: String = "HAP_Internal"
     @AppStorage("autoSync") private var autoSync: Bool = false
@@ -32,6 +34,11 @@ struct SettingsView: View {
                 Toggle("Auto-sync when files change", isOn: $autoSync)
                     .onChange(of: autoSync) { _, newValue in
                         appState.autoSyncEnabled = newValue
+                        if newValue {
+                            appState.startMonitoring(folders: folders)
+                        } else {
+                            appState.stopMonitoring()
+                        }
                     }
                     .help("Watches monitored folders for changes and syncs after 60 seconds of inactivity.")
 

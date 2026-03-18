@@ -4,6 +4,7 @@ import SwiftData
 struct MainView: View {
     @Environment(AppState.self) private var appState
     @Environment(\.modelContext) private var modelContext
+    @Query(sort: \MonitoredFolder.path) private var folders: [MonitoredFolder]
 
     enum SidebarItem: String, CaseIterable, Identifiable, Hashable {
         case folders = "Monitored Folders"
@@ -51,5 +52,16 @@ struct MainView: View {
             }
         }
         .frame(minWidth: 700, minHeight: 450)
+        .onAppear {
+            // Restore folder monitoring and periodic sync on app launch
+            appState.startMonitoring(folders: folders)
+            if appState.periodicSyncMinutes > 0 {
+                appState.startPeriodicSync()
+            }
+        }
+        .onChange(of: folders.map(\.isEnabled)) { _, _ in
+            // Restart monitoring when folders are added/removed/toggled
+            appState.startMonitoring(folders: folders)
+        }
     }
 }
