@@ -33,11 +33,14 @@ struct SyncProgressView: View {
             Divider()
 
             if !appState.connectionStatus.isConnected {
+                Spacer()
                 ContentUnavailableView(
                     "Not Connected",
                     systemImage: "wifi.slash",
                     description: Text("Connect to your HAP-Z1ES to start transferring files.")
                 )
+                .frame(maxHeight: 200)
+                Spacer()
             } else if let engine = syncEngine {
                 if engine.isSyncing || !engine.currentTransfers.isEmpty {
                     // Overall progress
@@ -91,17 +94,23 @@ struct SyncProgressView: View {
                         }
                     }
                 } else if let lastSync = engine.lastSyncDate {
+                    Spacer()
                     ContentUnavailableView {
                         Label("Up to Date", systemImage: "checkmark.circle")
                     } description: {
                         Text("Last sync: \(lastSync, style: .relative) ago")
                     }
+                    .frame(maxHeight: 200)
+                    Spacer()
                 } else {
+                    Spacer()
                     ContentUnavailableView(
                         "No Transfers",
                         systemImage: "arrow.up.circle",
                         description: Text("Click 'Sync Now' in Monitored Folders to start.")
                     )
+                    .frame(maxHeight: 200)
+                    Spacer()
                 }
 
                 if let error = engine.lastError {

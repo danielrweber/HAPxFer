@@ -40,6 +40,7 @@ struct FolderListView: View {
             Divider()
 
             if folders.isEmpty {
+                Spacer()
                 ContentUnavailableView {
                     Label("No Folders", systemImage: "folder.badge.plus")
                 } description: {
@@ -48,6 +49,8 @@ struct FolderListView: View {
                     Button("Add Folder") { showFilePicker = true }
                         .buttonStyle(.borderedProminent)
                 }
+                .frame(maxHeight: 200)
+                Spacer()
             } else {
                 List {
                     ForEach(folders) { folder in

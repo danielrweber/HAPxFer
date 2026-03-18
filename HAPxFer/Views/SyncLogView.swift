@@ -77,6 +77,7 @@ struct SyncLogView: View {
 
             // Log entries
             if filteredEntries.isEmpty {
+                Spacer()
                 ContentUnavailableView {
                     Label(
                         allEntries.isEmpty ? "No Activity" : "No Matches",
@@ -87,6 +88,8 @@ struct SyncLogView: View {
                          ? "Sync activity will appear here."
                          : "No entries match the current filter.")
                 }
+                .frame(maxHeight: 200)
+                Spacer()
             } else {
                 List(filteredEntries) { entry in
                     LogEntryRow(entry: entry)
