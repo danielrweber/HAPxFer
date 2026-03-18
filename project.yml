@@ -2,7 +2,7 @@ name: HAPxFer
 options:
   bundleIdPrefix: com.hapxfer
   deploymentTarget:
-    macOS: "26.0"
+    macOS: "14.0"
   xcodeVersion: "16.0"
   minimumXcodeGenVersion: "2.40.0"
 
@@ -27,12 +27,28 @@ targets:
         ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
         INFOPLIST_KEY_NSLocalNetworkUsageDescription: "HAPxFer needs local network access to discover and transfer files to your Sony HAP-Z1ES player."
         SWIFT_OBJC_BRIDGING_HEADER: HAPxFer/SMBCModule/HAPxFer-Bridging-Header.h
+        ARCHS: "arm64 x86_64"
+        ONLY_ACTIVE_ARCH: "NO"
         HEADER_SEARCH_PATHS:
           - /opt/homebrew/include
+          - "$(PROJECT_DIR)/Frameworks/include"
         LIBRARY_SEARCH_PATHS:
-          - /opt/homebrew/lib
+          - "$(PROJECT_DIR)/Frameworks"
         OTHER_LDFLAGS:
           - -lsmbclient
-          - -L/opt/homebrew/lib
-          - -rpath
-          - /opt/homebrew/lib
+          - "-L$(PROJECT_DIR)/Frameworks"
+        LD_RUNPATH_SEARCH_PATHS:
+          - "@executable_path/../Frameworks"
+      config:
+        Debug:
+          ONLY_ACTIVE_ARCH: "YES"
+    postCompileScripts:
+      - name: "Embed Samba Frameworks"
+        script: |
+          FWDIR="${BUILT_PRODUCTS_DIR}/${FRAMEWORKS_FOLDER_PATH}"
+          mkdir -p "${FWDIR}"
+          # Remove existing dylibs first to avoid permission issues on overwrite
+          rm -f "${FWDIR}/"*.dylib 2>/dev/null || true
+          cp "${PROJECT_DIR}/Frameworks/"*.dylib "${FWDIR}/"
+          chmod u+w "${FWDIR}/"*.dylib
+        basedOnDependencyAnalysis: false

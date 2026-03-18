@@ -54,14 +54,8 @@ struct SettingsView: View {
                     }
             }
 
-            Section("Background Sync") {
-                Toggle("Show in menu bar", isOn: $menuBarEnabled)
-                    .onChange(of: menuBarEnabled) { _, newValue in
-                        appState.menuBarMode = newValue
-                    }
-                    .help("Show a menu bar icon for quick access to sync status and controls.")
-
-                Picker("Scheduled sync interval", selection: $periodicSyncMinutes) {
+            Section("Periodic Sync") {
+                Picker("Sync interval", selection: $periodicSyncMinutes) {
                     ForEach(syncIntervalOptions, id: \.0) { value, label in
                         Text(label).tag(value)
                     }
@@ -74,14 +68,21 @@ struct SettingsView: View {
                         appState.stopPeriodicSync()
                     }
                 }
-                .disabled(!menuBarEnabled)
-                .help("Automatically sync on a fixed schedule. The device will be woken via Wake-on-LAN if needed.")
+                .help("Automatically sync on a fixed schedule while the app is open. The device will be woken via Wake-on-LAN if needed.")
 
-                if periodicSyncMinutes > 0 && menuBarEnabled {
+                if periodicSyncMinutes > 0 {
                     Text("The HAP-Z1ES will be woken automatically before each sync and will return to standby after its idle timeout (~20 min).")
                         .font(.caption)
                         .foregroundStyle(.secondary)
                 }
+            }
+
+            Section("Menu Bar") {
+                Toggle("Show in menu bar", isOn: $menuBarEnabled)
+                    .onChange(of: menuBarEnabled) { _, newValue in
+                        appState.menuBarMode = newValue
+                    }
+                    .help("Show a menu bar icon for quick access to sync status and controls. When enabled, closing the window keeps the app running.")
             }
         }
         .formStyle(.grouped)
@@ -93,7 +94,7 @@ struct SettingsView: View {
             appState.syncDeletions = syncDeletions
             appState.menuBarMode = menuBarEnabled
             appState.periodicSyncMinutes = periodicSyncMinutes
-            if periodicSyncMinutes > 0 && menuBarEnabled {
+            if periodicSyncMinutes > 0 {
                 appState.startPeriodicSync()
             }
         }
