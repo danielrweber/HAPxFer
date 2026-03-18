@@ -16,6 +16,7 @@
 
 import SwiftUI
 import SwiftData
+import UniformTypeIdentifiers
 
 struct FolderListView: View {
     @Environment(AppState.self) private var appState
@@ -25,6 +26,7 @@ struct FolderListView: View {
     @State private var showFilePicker = false
     @State private var folderPendingRemoval: MonitoredFolder?
     @State private var folderPendingDisable: MonitoredFolder?
+    @State private var isDragOver = false
 
     var body: some View {
         VStack(spacing: 0) {
@@ -106,6 +108,19 @@ struct FolderListView: View {
                 }
             }
         }
+        .overlay {
+            if isDragOver {
+                RoundedRectangle(cornerRadius: 12)
+                    .strokeBorder(Color.accentColor, style: StrokeStyle(lineWidth: 3, dash: [8, 4]))
+                    .background(Color.accentColor.opacity(0.08))
+                    .clipShape(RoundedRectangle(cornerRadius: 12))
+                    .padding(4)
+                    .allowsHitTesting(false)
+            }
+        }
+        .onDrop(of: [.fileURL], isTargeted: $isDragOver) { providers in
+            handleDrop(providers)
+        }
         .fileImporter(
             isPresented: $showFilePicker,
             allowedContentTypes: [.folder],
@@ -178,6 +193,41 @@ struct FolderListView: View {
     }
 
     // MARK: - Actions
+
+    /// Handle folders dropped from Finder.
+    private func handleDrop(_ providers: [NSItemProvider]) -> Bool {
+        var handled = false
+        for provider in providers {
+            provider.loadItem(forTypeIdentifier: UTType.fileURL.identifier, options: nil) { data, _ in
+                guard let data = data as? Data,
+                      let url = URL(dataRepresentation: data, relativeTo: nil, isAbsolute: true) else { return }
+
+                var isDir: ObjCBool = false
+                guard FileManager.default.fileExists(atPath: url.path, isDirectory: &isDir), isDir.boolValue else { return }
+
+                DispatchQueue.main.async {
+                    let bookmarkData = try? url.bookmarkData(
+                        options: .withSecurityScope,
+                        includingResourceValuesForKeys: nil,
+                        relativeTo: nil
+                    )
+
+                    // Skip if already monitored
+                    let path = url.path(percentEncoded: false)
+                    guard !folders.contains(where: { $0.path == path }) else { return }
+
+                    let folder = MonitoredFolder(
+                        path: path,
+                        bookmarkData: bookmarkData
+                    )
+                    modelContext.insert(folder)
+                    try? modelContext.save()
+                }
+            }
+            handled = true
+        }
+        return handled
+    }
 
     private func handleFolderSelection(_ result: Result<[URL], Error>) {
         guard case .success(let urls) = result else { return }
