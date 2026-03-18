@@ -1,0 +1,55 @@
+Third-Party Software Licenses
+==============================
+
+HAPxFer includes the following third-party software:
+
+
+Samba / libsmbclient
+--------------------
+License: GNU General Public License v3.0 (GPL-3.0-or-later)
+Website: https://www.samba.org/
+Source:  https://github.com/samba-team/samba
+
+HAPxFer links dynamically against libsmbclient from the Samba project
+to provide SMB1 (NT1) protocol support for communicating with the
+Sony HAP-Z1ES music player.
+
+Copyright (C) Andrew Tridgell 1994-1998
+Copyright (C) Samba Team 2001-2025
+
+The full text of the GPL-3.0 license is included in the LICENSE file.
+
+
+MIT Kerberos (krb5)
+-------------------
+License: MIT License
+Website: https://web.mit.edu/kerberos/
+Source:  https://github.com/krb5/krb5
+
+Included as a dependency of Samba for Kerberos authentication support.
+
+
+GnuTLS / Nettle / Hogweed
+--------------------------
+License: GNU Lesser General Public License v3.0 (LGPL-3.0-or-later)
+Website: https://www.gnutls.org/ / https://www.lysator.liu.se/~nisse/nettle/
+
+Included as dependencies of Samba for cryptographic operations.
+
+
+libtalloc / libtdb / libtevent / libldb
+----------------------------------------
+License: GNU Lesser General Public License v3.0 (LGPL-3.0-or-later)
+Website: https://www.samba.org/
+
+Samba utility libraries for memory allocation, database storage,
+event handling, and LDAP-like database access.
+
+
+ICU (International Components for Unicode)
+------------------------------------------
+License: ICU License (MIT-compatible)
+Website: https://icu.unicode.org/
+Source:  https://github.com/unicode-org/icu
+
+Included as a dependency of Samba for Unicode text handling.
