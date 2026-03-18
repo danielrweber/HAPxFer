@@ -29,9 +29,20 @@ final class AppState {
         set { UserDefaults.standard.set(newValue, forKey: "lastDeviceIP") }
     }
 
+    /// Periodic sync interval in minutes (0 = disabled)
+    var periodicSyncMinutes: Int = 0
+
+    /// Whether the app should stay in the menu bar when the window is closed
+    var menuBarMode: Bool = false
+
+    /// Last automatic sync timestamp
+    var lastAutoSync: Date?
+
     private let smbService = LibSMBClientService()
     private var folderMonitor: FolderMonitor?
     private var debounceTask: Task<Void, Never>?
+    private var periodicSyncTask: Task<Void, Never>?
+    private var modelContainerRef: ModelContainer?
 
     enum ConnectionStatus: Equatable {
         case disconnected
@@ -83,6 +94,7 @@ final class AppState {
             try await smbService.connect(host: device.host, port: device.port, share: targetShare)
             connectionStatus = .connected
             syncEngine = SyncEngine(smbService: smbService, modelContainer: modelContainer)
+            modelContainerRef = modelContainer
 
             // Store the IP and resolve/store MAC for future WOL
             lastDeviceIP = device.host
@@ -190,12 +202,67 @@ final class AppState {
     }
 
     private func handleFileChanges(_ changedPaths: Set<String>) {
-        // Debounce: wait 5 seconds after last change before syncing
+        // Debounce: wait 60 seconds after last change before syncing.
+        // This gives large folder copies time to complete before triggering a sync.
         debounceTask?.cancel()
         debounceTask = Task {
-            try? await Task.sleep(for: .seconds(5))
+            try? await Task.sleep(for: .seconds(60))
             guard !Task.isCancelled else { return }
-            await syncEngine?.syncAll(syncDeletions: syncDeletions)
+            await autoSync()
         }
+    }
+
+    // MARK: - Auto Sync (with WOL + reconnect)
+
+    /// Perform a sync cycle: wake device if needed, connect if needed, sync, then done.
+    /// The device will auto-sleep after its idle timeout (default 20 min).
+    func autoSync() async {
+        guard syncEngine?.isSyncing != true else {
+            logger.info("Auto-sync skipped — already syncing")
+            return
+        }
+
+        // If not connected, try to wake and reconnect
+        if !connectionStatus.isConnected {
+            guard let ip = lastDeviceIP, let container = modelContainerRef else {
+                logger.warning("Auto-sync skipped — no device IP or model container")
+                return
+            }
+            let device = DeviceInfo(name: "HAP-Z1ES (\(ip))", host: ip)
+            await wakeAndConnect(to: device, modelContainer: container)
+
+            guard connectionStatus.isConnected else {
+                logger.error("Auto-sync failed — could not connect after WOL")
+                return
+            }
+        }
+
+        logger.info("Starting auto-sync")
+        await syncEngine?.syncAll(syncDeletions: syncDeletions)
+        lastAutoSync = Date()
+        logger.info("Auto-sync complete")
+    }
+
+    // MARK: - Periodic Sync Timer
+
+    func startPeriodicSync() {
+        stopPeriodicSync()
+        guard periodicSyncMinutes > 0 else { return }
+
+        let interval = TimeInterval(periodicSyncMinutes * 60)
+        logger.info("Starting periodic sync every \(self.periodicSyncMinutes) minute(s)")
+
+        periodicSyncTask = Task {
+            while !Task.isCancelled {
+                try? await Task.sleep(for: .seconds(interval))
+                guard !Task.isCancelled else { break }
+                await autoSync()
+            }
+        }
+    }
+
+    func stopPeriodicSync() {
+        periodicSyncTask?.cancel()
+        periodicSyncTask = nil
     }
 }
