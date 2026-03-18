@@ -5,6 +5,7 @@ import SwiftData
 struct HAPxFerApp: App {
     @State private var appState = AppState()
     @Environment(\.openWindow) private var openWindow
+    @AppStorage("menuBarEnabled") private var menuBarEnabled: Bool = false
 
     var body: some Scene {
         WindowGroup {
@@ -31,8 +32,8 @@ struct HAPxFerApp: App {
         .windowResizability(.contentSize)
         .defaultSize(width: 600, height: 700)
 
-        // Menu bar extra — always visible for background sync control
-        MenuBarExtra("HAPxFer", systemImage: "hifispeaker.2.fill") {
+        // Menu bar extra — only shown when enabled in Settings
+        MenuBarExtra("HAPxFer", systemImage: "hifispeaker.2.fill", isInserted: $menuBarEnabled) {
             MenuBarView()
                 .environment(appState)
         }

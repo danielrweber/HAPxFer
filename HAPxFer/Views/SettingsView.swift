@@ -8,6 +8,7 @@ struct SettingsView: View {
     @AppStorage("maxConcurrent") private var maxConcurrent: Int = 2
     @AppStorage("syncDeletions") private var syncDeletions: Bool = true
     @AppStorage("periodicSyncMinutes") private var periodicSyncMinutes: Int = 0
+    @AppStorage("menuBarEnabled") private var menuBarEnabled: Bool = false
 
     private let syncIntervalOptions = [
         (0, "Disabled"),
@@ -46,8 +47,14 @@ struct SettingsView: View {
                     }
             }
 
-            Section("Scheduled Sync") {
-                Picker("Sync interval", selection: $periodicSyncMinutes) {
+            Section("Background Sync") {
+                Toggle("Show in menu bar", isOn: $menuBarEnabled)
+                    .onChange(of: menuBarEnabled) { _, newValue in
+                        appState.menuBarMode = newValue
+                    }
+                    .help("Show a menu bar icon for quick access to sync status and controls.")
+
+                Picker("Scheduled sync interval", selection: $periodicSyncMinutes) {
                     ForEach(syncIntervalOptions, id: \.0) { value, label in
                         Text(label).tag(value)
                     }
@@ -60,9 +67,10 @@ struct SettingsView: View {
                         appState.stopPeriodicSync()
                     }
                 }
+                .disabled(!menuBarEnabled)
                 .help("Automatically sync on a fixed schedule. The device will be woken via Wake-on-LAN if needed.")
 
-                if periodicSyncMinutes > 0 {
+                if periodicSyncMinutes > 0 && menuBarEnabled {
                     Text("The HAP-Z1ES will be woken automatically before each sync and will return to standby after its idle timeout (~20 min).")
                         .font(.caption)
                         .foregroundStyle(.secondary)
@@ -76,8 +84,9 @@ struct SettingsView: View {
             appState.shareName = shareName
             appState.autoSyncEnabled = autoSync
             appState.syncDeletions = syncDeletions
+            appState.menuBarMode = menuBarEnabled
             appState.periodicSyncMinutes = periodicSyncMinutes
-            if periodicSyncMinutes > 0 {
+            if periodicSyncMinutes > 0 && menuBarEnabled {
                 appState.startPeriodicSync()
             }
         }
