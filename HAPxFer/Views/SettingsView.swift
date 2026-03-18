@@ -3,7 +3,9 @@ import SwiftData
 
 struct SettingsView: View {
     @Environment(AppState.self) private var appState
+    @Environment(\.modelContext) private var modelContext
     @Query(sort: \MonitoredFolder.path) private var folders: [MonitoredFolder]
+    @State private var resyncCount: Int?
 
     @AppStorage("shareName") private var shareName: String = "HAP_Internal"
     @AppStorage("autoSync") private var autoSync: Bool = false
@@ -54,6 +56,18 @@ struct SettingsView: View {
                     }
             }
 
+            Section("Artist Override") {
+                Text("When \"Override Artist tag\" is enabled on a folder, new files get the artist tag set before upload. Already-synced files are not re-processed unless you force a re-sync.")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+
+                Button("Re-sync all files with artist override") {
+                    resyncForArtistOverride()
+                }
+                .disabled(appState.syncEngine?.isSyncing == true)
+                .help("Marks all synced files in folders with artist override enabled as pending, so they will be re-uploaded with the corrected Artist tag on the next sync.")
+            }
+
             Section("Periodic Sync") {
                 Picker("Sync interval", selection: $periodicSyncMinutes) {
                     ForEach(syncIntervalOptions, id: \.0) { value, label in
@@ -98,5 +112,28 @@ struct SettingsView: View {
                 appState.startPeriodicSync()
             }
         }
+        .alert("Re-sync Queued", isPresented: Binding(
+            get: { resyncCount != nil },
+            set: { if !$0 { resyncCount = nil } }
+        )) {
+            Button("OK") { resyncCount = nil }
+        } message: {
+            if let count = resyncCount {
+                Text("\(count) file(s) marked for re-upload. Run Sync Now to apply the artist override.")
+            }
+        }
+    }
+
+    /// Marks all synced records in artist-override folders as pending re-upload.
+    private func resyncForArtistOverride() {
+        var count = 0
+        for folder in folders where folder.overrideArtistFromFolder && folder.isEnabled {
+            for record in folder.syncRecords where record.status == .synced {
+                record.status = .pending
+                count += 1
+            }
+        }
+        try? modelContext.save()
+        resyncCount = count
     }
 }
