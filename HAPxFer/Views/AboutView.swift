@@ -123,7 +123,7 @@ struct AboutView: View {
                     Text("HAPxFer is free and open-source software licensed under the GNU General Public License v3 (GPL-3.0).")
                     Text("This software uses libsmbclient from the Samba project, also licensed under GPL-3.0.")
 
-                    Link("View source on GitHub", destination: URL(string: "https://github.com")!)
+                    Link("View source on GitHub", destination: URL(string: "https://github.com/danielrweber/HAPxFer")!)
                         .padding(.top, 4)
                 }
 
