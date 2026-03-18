@@ -261,6 +261,14 @@ struct FolderRow: View {
                     .foregroundStyle(.secondary)
                     .lineLimit(1)
                     .truncationMode(.middle)
+
+                if folder.isEnabled {
+                    Toggle("Override Artist tag from folder name", isOn: $folder.overrideArtistFromFolder)
+                        .font(.caption)
+                        .toggleStyle(.switch)
+                        .controlSize(.mini)
+                        .help("Sets the Artist metadata field to the first subfolder name (artist folder) before uploading. Source files are never modified.")
+                }
             }
 
             Spacer()

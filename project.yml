@@ -6,6 +6,11 @@ options:
   xcodeVersion: "16.0"
   minimumXcodeGenVersion: "2.40.0"
 
+packages:
+  CXXTagLib:
+    url: https://github.com/sbooth/CXXTagLib
+    from: "2.1.1"
+
 targets:
   HAPxFer:
     type: application
@@ -14,6 +19,9 @@ targets:
       - path: HAPxFer
         excludes:
           - "SMBCModule/**"
+    dependencies:
+      - package: CXXTagLib
+        product: taglib
     settings:
       base:
         SWIFT_VERSION: "6.0"

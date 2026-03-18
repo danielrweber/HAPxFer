@@ -6,6 +6,7 @@ final class MonitoredFolder {
     var path: String
     var bookmarkData: Data?
     var isEnabled: Bool = true
+    var overrideArtistFromFolder: Bool = false
     var lastSyncDate: Date?
     /// Destination path on the remote share (defaults to folder name)
     var remotePath: String

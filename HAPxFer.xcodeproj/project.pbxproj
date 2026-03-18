@@ -25,12 +25,14 @@
 		7948D68BCE769C9FB2F7DF48 /* SyncEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 545A128D45914DC2174562C5 /* SyncEngine.swift */; };
 		855D3B03E80DD855A2EF8F0E /* MonitoredFolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F843492E1CE01265DD090FA /* MonitoredFolder.swift */; };
 		9265F316C53CA17D23EAC382 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82270B81383B4CF81AF5CCFA /* MainView.swift */; };
+		92B7623379565EF5E648C70A /* MetadataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C360E543B8E9229D14152C92 /* MetadataService.swift */; };
 		95121351656C505313554204 /* SyncProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D7C530831C78BADDBC61FA /* SyncProgressView.swift */; };
 		A328AC09D9705D2CEB084ED7 /* RemoteBrowserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC662592A86ACE7EE9514BC1 /* RemoteBrowserView.swift */; };
 		BF98E1BA4D914164F7B8AD97 /* DeviceDiscovery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CA9A952D4CD8D83C398F62C /* DeviceDiscovery.swift */; };
 		CB92E6F733141680C9E48E43 /* FolderListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D96AEFF55462164672751B2 /* FolderListView.swift */; };
 		F82C55476E286597FBDD0F0C /* SyncLogEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEF384E58B0EE50F3D26EC0E /* SyncLogEntry.swift */; };
 		F9A1A894C820ED92DFACB319 /* HAPxFerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70869D29024818CEC194E9CE /* HAPxFerApp.swift */; };
+		FA46FF6FE633FA4F6D3AE23E /* taglib in Frameworks */ = {isa = PBXBuildFile; productRef = 26CBE355FEF72CCFA92A0F17 /* taglib */; };
 		FD6A70E3080F533E6687BAA3 /* DeviceInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59F2DA7BBE699956296800C2 /* DeviceInfo.swift */; };
 /* End PBXBuildFile section */
 
@@ -61,9 +63,21 @@
 		A9C586CFB8B901CB0B9EE96F /* SMBClientService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SMBClientService.swift; sourceTree = "<group>"; };
 		AC662592A86ACE7EE9514BC1 /* RemoteBrowserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteBrowserView.swift; sourceTree = "<group>"; };
 		AEF384E58B0EE50F3D26EC0E /* SyncLogEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncLogEntry.swift; sourceTree = "<group>"; };
+		C360E543B8E9229D14152C92 /* MetadataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetadataService.swift; sourceTree = "<group>"; };
 		EB16DE4CB80B2B4FBAA06549 /* FileFilters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileFilters.swift; sourceTree = "<group>"; };
 		F6B3E3943E8E9AC0AEE9BE4D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 /* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		81ECDE4C42EA7871A7AAD6A9 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FA46FF6FE633FA4F6D3AE23E /* taglib in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
 		8A266B30440E5A7E25050D86 /* HAPxFer */ = {
@@ -148,6 +162,7 @@
 				8CA9A952D4CD8D83C398F62C /* DeviceDiscovery.swift */,
 				5B0A8721E01D5FC95DC62BB6 /* FolderMonitor.swift */,
 				4ED26DF59EEC712EFA1E3E26 /* LibSMBClientService.swift */,
+				C360E543B8E9229D14152C92 /* MetadataService.swift */,
 				A9C586CFB8B901CB0B9EE96F /* SMBClientService.swift */,
 				87C1C341F09A8D2AC871E075 /* SMBService.swift */,
 				545A128D45914DC2174562C5 /* SyncEngine.swift */,
@@ -166,6 +181,7 @@
 				D0095AF48A06E4FCBF77E0FD /* Sources */,
 				43C9121D80D08B10B62C761A /* Embed Samba Frameworks */,
 				AB6E81A50081A3BAD1C88CAA /* Resources */,
+				81ECDE4C42EA7871A7AAD6A9 /* Frameworks */,
 			);
 			buildRules = (
 			);
@@ -173,6 +189,7 @@
 			);
 			name = HAPxFer;
 			packageProductDependencies = (
+				26CBE355FEF72CCFA92A0F17 /* taglib */,
 			);
 			productName = HAPxFer;
 			productReference = 20198FB2F9A5E3BF5C1AF8C8 /* HAPxFer.app */;
@@ -198,6 +215,9 @@
 			);
 			mainGroup = D2714F6BFC9489A4668294AF;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				C1695C5988E666F97793055C /* XCRemoteSwiftPackageReference "CXXTagLib" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 8AC96AC23DDB356C2084AD4F /* Products */;
 			projectDirPath = "";
@@ -259,6 +279,7 @@
 				F9A1A894C820ED92DFACB319 /* HAPxFerApp.swift in Sources */,
 				1D6B25596D33C140DE998793 /* LibSMBClientService.swift in Sources */,
 				9265F316C53CA17D23EAC382 /* MainView.swift in Sources */,
+				92B7623379565EF5E648C70A /* MetadataService.swift in Sources */,
 				855D3B03E80DD855A2EF8F0E /* MonitoredFolder.swift in Sources */,
 				A328AC09D9705D2CEB084ED7 /* RemoteBrowserView.swift in Sources */,
 				11274CC384646C21A82148C2 /* SMBClientService.swift in Sources */,
@@ -487,6 +508,25 @@
 			defaultConfigurationName = Debug;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		C1695C5988E666F97793055C /* XCRemoteSwiftPackageReference "CXXTagLib" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/sbooth/CXXTagLib";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.1.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		26CBE355FEF72CCFA92A0F17 /* taglib */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C1695C5988E666F97793055C /* XCRemoteSwiftPackageReference "CXXTagLib" */;
+			productName = taglib;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 94D748B8683021C45DBACBAC /* Project object */;
 }

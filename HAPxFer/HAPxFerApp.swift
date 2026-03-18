@@ -14,6 +14,7 @@ struct HAPxFerApp: App {
                 .environment(appState)
                 .onAppear {
                     appDelegate.menuBarEnabled = menuBarEnabled
+                    MetadataService.cleanupStaleTempFiles()
                 }
         }
         .modelContainer(for: [MonitoredFolder.self, SyncRecord.self, SyncLogEntry.self])

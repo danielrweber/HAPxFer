@@ -1,0 +1,15 @@
+{
+  "originHash" : "796b3aaf63bfe0230772c571f806f9752efdc45f68de7f7b7dc7e6148cbc619b",
+  "pins" : [
+    {
+      "identity" : "cxxtaglib",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/sbooth/CXXTagLib",
+      "state" : {
+        "revision" : "a243fefb04d56eeade7669b4ec90dc2997089fbb",
+        "version" : "2.1.1"
+      }
+    }
+  ],
+  "version" : 3
+}

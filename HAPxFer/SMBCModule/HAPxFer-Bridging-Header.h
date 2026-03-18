@@ -10,5 +10,6 @@
 #define HAPxFer_Bridging_Header_h
 
 #include <libsmbclient.h>
+#include "taglib_c_wrapper.h"
 
 #endif /* HAPxFer_Bridging_Header_h */

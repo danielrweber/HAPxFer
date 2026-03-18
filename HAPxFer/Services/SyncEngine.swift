@@ -90,6 +90,7 @@ final class SyncEngine {
                 let folderPath = folder.path
                 let folderRemotePath = folder.remotePath
                 let folderDisplayName = folder.displayName
+                let overrideArtist = folder.overrideArtistFromFolder
                 let existingRecords = folder.syncRecords.map { record in
                     (relativePath: record.relativePath, fileSize: record.fileSize,
                      localModDate: record.localModDate, status: record.status)
@@ -124,7 +125,7 @@ final class SyncEngine {
                     totalBytesToTransfer += pending.reduce(0) { $0 + $1.size }
 
                     // Transfer files
-                    await transferFiles(pending, remotePath: folderRemotePath)
+                    await transferFiles(pending, remotePath: folderRemotePath, overrideArtist: overrideArtist)
 
                     // Update folder sync date and records, create log entries
                     for file in pending {
@@ -359,7 +360,7 @@ final class SyncEngine {
     }
 
     /// Transfer files to the device with concurrency control.
-    private func transferFiles(_ files: [PendingFile], remotePath: String) async {
+    private func transferFiles(_ files: [PendingFile], remotePath: String, overrideArtist: Bool = false) async {
         let sorted = files.sorted { $0.relativePath < $1.relativePath }
         let service = smbService
         let maxConcurrent = maxConcurrentTransfers
@@ -412,9 +413,34 @@ final class SyncEngine {
 
                 inFlight += 1
                 group.addTask {
+                    var uploadURL = file.localURL
+                    var tempURL: URL? = nil
+
+                    // If artist override is enabled, create a temp copy with modified metadata
+                    if overrideArtist,
+                       let artist = MetadataService.artistFromRelativePath(file.relativePath) {
+                        do {
+                            let temp = try MetadataService.copyWithArtistOverride(
+                                sourceURL: file.localURL,
+                                artist: artist
+                            )
+                            uploadURL = temp
+                            tempURL = temp
+                        } catch {
+                            // Graceful degradation: upload with original metadata
+                            logger.warning("Artist override failed for \(relPath): \(error.localizedDescription)")
+                        }
+                    }
+
+                    defer {
+                        if let tempURL {
+                            MetadataService.cleanupTempFile(at: tempURL)
+                        }
+                    }
+
                     do {
                         try await service.upload(
-                            localURL: file.localURL,
+                            localURL: uploadURL,
                             remotePath: remoteFilePath,
                             progress: progressCallback
                         )
