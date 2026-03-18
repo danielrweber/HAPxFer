@@ -6,11 +6,15 @@ struct HAPxFerApp: App {
     @State private var appState = AppState()
     @Environment(\.openWindow) private var openWindow
     @AppStorage("menuBarEnabled") private var menuBarEnabled: Bool = false
+    @NSApplicationDelegateAdaptor(AppDelegate.self) private var appDelegate
 
     var body: some Scene {
-        WindowGroup {
+        Window("HAPxFer", id: "main") {
             MainView()
                 .environment(appState)
+                .onAppear {
+                    appDelegate.menuBarEnabled = menuBarEnabled
+                }
         }
         .modelContainer(for: [MonitoredFolder.self, SyncRecord.self, SyncLogEntry.self])
         .commands {
@@ -34,15 +38,26 @@ struct HAPxFerApp: App {
 
         // Menu bar extra — only shown when enabled in Settings
         MenuBarExtra("HAPxFer", systemImage: "arrow.triangle.2.circlepath.circle", isInserted: $menuBarEnabled) {
-            MenuBarView()
+            MenuBarView(openWindow: openWindow)
                 .environment(appState)
         }
+    }
+}
+
+/// App delegate to intercept window close and hide instead of quit when menu bar is active
+final class AppDelegate: NSObject, NSApplicationDelegate {
+    var menuBarEnabled: Bool = false
+
+    func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {
+        // Don't quit when closing the window if menu bar mode is on
+        return !menuBarEnabled
     }
 }
 
 /// Lightweight menu bar dropdown for status and quick actions
 struct MenuBarView: View {
     @Environment(AppState.self) private var appState
+    var openWindow: OpenWindowAction
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
@@ -95,8 +110,8 @@ struct MenuBarView: View {
             Divider()
 
             Button("Open HAPxFer") {
+                openWindow(id: "main")
                 NSApp.activate(ignoringOtherApps: true)
-                // The main window will be shown by the WindowGroup
             }
             .keyboardShortcut("o")
 
