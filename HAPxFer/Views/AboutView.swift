@@ -77,13 +77,27 @@ struct AboutView: View {
                     }
                 }
 
+                // Artist override
+                SectionBlock(title: "Artist Tag Override", icon: "person.text.rectangle") {
+                    Text("The HAP-Z1ES does not support sorting or browsing by Album Artist. When an album features multiple artists (guest performers, collaborations, compilations), the player's library can become fragmented \u{2014} the same album may appear under several different artist names, making it difficult to browse.")
+
+                    Text("HAPxFer offers an optional Artist Tag Override (per folder) that sets the Artist metadata field to the top-level folder name (the main artist) before uploading. This groups all tracks under a single artist on the device, matching how your music library is organized on your Mac.")
+
+                    BulletPoint("Your source files are never modified \u{2014} changes are applied to a temporary copy during transfer.")
+                    BulletPoint("Enable per folder in Monitored Folders using the \"Override Artist tag\" toggle.")
+                    BulletPoint("To apply the override to files already on the device, use Settings \u{2192} Artist Override \u{2192} Re-sync.")
+                    BulletPoint("Supports FLAC, MP3, M4A/AAC, AIFF, and WAV files.")
+                }
+
                 // Technical details
                 SectionBlock(title: "Technical Details", icon: "wrench.and.screwdriver") {
                     BulletPoint("Uses Samba's libsmbclient for SMB1 (NT1) protocol support")
                     BulletPoint("Transfers files in 64 KB chunks with real-time progress")
                     BulletPoint("Tracks sync state with a local database to enable incremental sync")
                     BulletPoint("Monitors folders via macOS FSEvents for auto-sync capability")
+                    BulletPoint("Supports Wake-on-LAN to wake the device from standby before syncing")
                     BulletPoint("Only deletes files from the device that were previously synced by this app")
+                    BulletPoint("Universal binary \u{2014} runs natively on Apple Silicon and Intel Macs")
                 }
 
                 Divider()
