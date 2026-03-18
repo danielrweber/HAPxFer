@@ -33,7 +33,7 @@ struct HAPxFerApp: App {
         .defaultSize(width: 600, height: 700)
 
         // Menu bar extra — only shown when enabled in Settings
-        MenuBarExtra("HAPxFer", systemImage: "hifispeaker.2.fill", isInserted: $menuBarEnabled) {
+        MenuBarExtra("HAPxFer", systemImage: "music.note.arrow.up.circle.fill", isInserted: $menuBarEnabled) {
             MenuBarView()
                 .environment(appState)
         }
