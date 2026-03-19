@@ -25,6 +25,18 @@ struct HAPxFerApp: App {
     @AppStorage("menuBarEnabled") private var menuBarEnabled: Bool = false
     @NSApplicationDelegateAdaptor(AppDelegate.self) private var appDelegate
 
+    /// Fixed model container so data persists regardless of signing identity or app location.
+    private static let sharedModelContainer: ModelContainer = {
+        let appSupport = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first!
+        let storeDir = appSupport.appendingPathComponent("HAPxFer", isDirectory: true)
+        try? FileManager.default.createDirectory(at: storeDir, withIntermediateDirectories: true)
+
+        let storeURL = storeDir.appendingPathComponent("HAPxFer.store")
+        let schema = Schema([MonitoredFolder.self, SyncRecord.self, SyncLogEntry.self])
+        let config = ModelConfiguration("HAPxFer", url: storeURL)
+        return try! ModelContainer(for: schema, configurations: [config])
+    }()
+
     var body: some Scene {
         Window("HAPxFer", id: "main") {
             MainView()
@@ -35,7 +47,7 @@ struct HAPxFerApp: App {
                     UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound]) { _, _ in }
                 }
         }
-        .modelContainer(for: [MonitoredFolder.self, SyncRecord.self, SyncLogEntry.self])
+        .modelContainer(Self.sharedModelContainer)
         .commands {
             CommandGroup(replacing: .appInfo) {
                 Button("About HAPxFer") {
@@ -48,7 +60,7 @@ struct HAPxFerApp: App {
             SettingsView()
                 .environment(appState)
         }
-        .modelContainer(for: [MonitoredFolder.self, SyncRecord.self, SyncLogEntry.self])
+        .modelContainer(Self.sharedModelContainer)
 
         Window("About HAPxFer", id: "about") {
             AboutView()
