@@ -408,8 +408,8 @@ final class SyncEngine {
                 relPath = remoteFile.path
             }
 
-            // Match by relative path and size
-            if let local = localMap[relPath], local.size == remoteFile.size {
+            // Match by relative path only — size may differ due to artist override metadata
+            if let local = localMap[relPath] {
                 let record = SyncRecord(
                     relativePath: relPath,
                     fileSize: local.size,
