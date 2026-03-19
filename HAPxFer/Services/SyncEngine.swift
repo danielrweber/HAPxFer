@@ -120,9 +120,31 @@ final class SyncEngine {
                 // Scan and diff on main actor (data is local)
                 let folderURL = URL(fileURLWithPath: folderPath)
                 let localFiles = Self.scanLocalFiles(at: folderURL)
+
+                // Reconcile: if this folder has no sync records yet, scan the HAP
+                // to find files that already exist so we don't re-upload duplicates.
+                if folder.syncRecords.isEmpty && !localFiles.isEmpty {
+                    logger.info("Reconciling \(folderDisplayName) — scanning remote for existing files")
+                    let reconciled = await reconcileWithRemote(
+                        localFiles: localFiles,
+                        remotePath: folderRemotePath,
+                        folder: folder,
+                        context: context
+                    )
+                    if reconciled > 0 {
+                        logger.info("Reconciled \(reconciled) file(s) already on device for \(folderDisplayName)")
+                    }
+                }
+
+                // Re-fetch records after reconciliation
+                let updatedRecords = folder.syncRecords.map { record in
+                    (relativePath: record.relativePath, fileSize: record.fileSize,
+                     localModDate: record.localModDate, status: record.status)
+                }
+
                 let pending = Self.diffFiles(
                     localFiles: localFiles,
-                    existingRecords: existingRecords,
+                    existingRecords: updatedRecords,
                     baseFolderURL: folderURL
                 )
 
@@ -358,6 +380,73 @@ final class SyncEngine {
         }
 
         return deletions
+    }
+
+    /// Scan the remote device and match files against local files by path and size.
+    /// Creates SyncRecord entries for matches so they won't be re-uploaded.
+    private func reconcileWithRemote(
+        localFiles: [(relativePath: String, size: Int64, modDate: Date)],
+        remotePath: String,
+        folder: MonitoredFolder,
+        context: ModelContext
+    ) async -> Int {
+        // Build a lookup of local files by relative path
+        let localMap = Dictionary(uniqueKeysWithValues: localFiles.map { ($0.relativePath, $0) })
+
+        // Recursively scan the remote directory
+        let remoteFiles = await scanRemoteFiles(at: remotePath)
+
+        var matched = 0
+        for remoteFile in remoteFiles {
+            // Remote path relative to the folder's remote root
+            let relPath: String
+            if remotePath.isEmpty {
+                relPath = remoteFile.path
+            } else if remoteFile.path.hasPrefix(remotePath + "/") {
+                relPath = String(remoteFile.path.dropFirst(remotePath.count + 1))
+            } else {
+                relPath = remoteFile.path
+            }
+
+            // Match by relative path and size
+            if let local = localMap[relPath], local.size == remoteFile.size {
+                let record = SyncRecord(
+                    relativePath: relPath,
+                    fileSize: local.size,
+                    localModDate: local.modDate
+                )
+                record.status = .synced
+                record.syncDate = Date()
+                record.folder = folder
+                context.insert(record)
+                matched += 1
+            }
+        }
+
+        if matched > 0 {
+            try? context.save()
+        }
+        return matched
+    }
+
+    /// Recursively list all files on the remote device at the given path.
+    private func scanRemoteFiles(at path: String) async -> [(path: String, size: Int64)] {
+        var results: [(path: String, size: Int64)] = []
+
+        guard let items = try? await smbService.listDirectory(at: path) else {
+            return results
+        }
+
+        for item in items {
+            if item.isDirectory {
+                let subResults = await scanRemoteFiles(at: item.path)
+                results.append(contentsOf: subResults)
+            } else if FileFilters.isSupportedName(item.name) {
+                results.append((path: item.path, size: item.size))
+            }
+        }
+
+        return results
     }
 
     /// Try to remove empty parent directories after a file deletion.
