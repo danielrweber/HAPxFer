@@ -173,6 +173,11 @@ final class AppState {
         return (tracks, albums)
     }
 
+    /// Switch to a different SMB share on the connected device.
+    func switchShare(_ share: String) async throws {
+        try await smbService.switchShare(share)
+    }
+
     func disconnect() async {
         stopMonitoring()
         try? await smbService.disconnect()

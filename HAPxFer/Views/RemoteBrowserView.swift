@@ -30,6 +30,9 @@ struct RemoteBrowserView: View {
     @State private var isLoading: Bool = true
     @State private var errorMessage: String?
 
+    // Share selection
+    @State private var selectedShare: MonitoredFolder.Destination = .internal
+
     // HDD info
     @State private var diskSpace: DiskSpaceInfo?
     @State private var trackCount: Int = 0
@@ -45,10 +48,19 @@ struct RemoteBrowserView: View {
             if let disk = diskSpace {
                 VStack(spacing: 6) {
                     HStack {
-                        Image(systemName: "internaldrive.fill")
+                        Image(systemName: selectedShare == .internal ? "internaldrive.fill" : "externaldrive.fill")
                             .foregroundStyle(.blue)
-                        Text("HAP-Z1ES Internal HDD")
-                            .font(.headline)
+                        Picker("", selection: $selectedShare) {
+                            ForEach(MonitoredFolder.Destination.allCases, id: \.self) { dest in
+                                Text(dest.displayName).tag(dest)
+                            }
+                        }
+                        .labelsHidden()
+                        .pickerStyle(.segmented)
+                        .fixedSize()
+                        .onChange(of: selectedShare) { _, _ in
+                            switchBrowseShare()
+                        }
                         Spacer()
                         Button("Close") { dismiss() }
                             .buttonStyle(.borderless)
@@ -87,10 +99,19 @@ struct RemoteBrowserView: View {
             } else {
                 // Minimal header when disk info not yet loaded
                 HStack {
-                    Image(systemName: "internaldrive.fill")
+                    Image(systemName: selectedShare == .internal ? "internaldrive.fill" : "externaldrive.fill")
                         .foregroundStyle(.blue)
-                    Text("HAP-Z1ES Internal HDD")
-                        .font(.headline)
+                    Picker("", selection: $selectedShare) {
+                        ForEach(MonitoredFolder.Destination.allCases, id: \.self) { dest in
+                            Text(dest.displayName).tag(dest)
+                        }
+                    }
+                    .labelsHidden()
+                    .pickerStyle(.segmented)
+                    .fixedSize()
+                    .onChange(of: selectedShare) { _, _ in
+                        switchBrowseShare()
+                    }
                     Spacer()
                     if isLoadingStats {
                         ProgressView()
@@ -233,6 +254,26 @@ struct RemoteBrowserView: View {
                 } else {
                     Text("Delete \"\(item.name)\" from the HAP-Z1ES? This file will not be re-synced.")
                 }
+            }
+        }
+    }
+
+    // MARK: - Share Switching
+
+    private func switchBrowseShare() {
+        currentPath = ""
+        pathStack = []
+        diskSpace = nil
+        isLoadingStats = true
+        Task {
+            do {
+                try await appState.switchShare(selectedShare.rawValue)
+                loadDirectory()
+                loadHDDInfo()
+            } catch {
+                errorMessage = "Cannot access \(selectedShare.displayName): \(error.localizedDescription)"
+                isLoading = false
+                isLoadingStats = false
             }
         }
     }

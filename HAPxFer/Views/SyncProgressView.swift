@@ -158,9 +158,19 @@ struct TransferRow: View {
                 Image(systemName: iconName)
                     .foregroundStyle(iconColor)
 
-                Text(item.fileName)
-                    .lineLimit(1)
-                    .truncationMode(.middle)
+                VStack(alignment: .leading, spacing: 1) {
+                    Text(item.fileName)
+                        .lineLimit(1)
+                        .truncationMode(.middle)
+
+                    if let parentPath = Self.parentPath(from: item.relativePath), !parentPath.isEmpty {
+                        Text(parentPath)
+                            .font(.caption2)
+                            .foregroundStyle(.secondary)
+                            .lineLimit(1)
+                            .truncationMode(.middle)
+                    }
+                }
 
                 Spacer()
 
@@ -181,6 +191,13 @@ struct TransferRow: View {
         }
         .padding(.vertical, 2)
         .opacity(item.isWaiting ? 0.6 : 1.0)
+    }
+
+    /// Extract the parent path (e.g. "Artist/Album") from "Artist/Album/Track.flac"
+    private static func parentPath(from relativePath: String) -> String? {
+        let components = relativePath.split(separator: "/")
+        guard components.count > 1 else { return nil }
+        return components.dropLast().joined(separator: " / ")
     }
 
     private var iconName: String {

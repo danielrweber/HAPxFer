@@ -213,6 +213,14 @@ struct LogEntryRow: View {
                     .lineLimit(1)
                     .truncationMode(.middle)
 
+                if let parentPath = Self.parentPath(from: entry.relativePath) {
+                    Text(parentPath)
+                        .font(.caption2)
+                        .foregroundStyle(.secondary)
+                        .lineLimit(1)
+                        .truncationMode(.middle)
+                }
+
                 HStack(spacing: 4) {
                     Text(entry.folderName)
                         .foregroundStyle(.secondary)
@@ -238,6 +246,12 @@ struct LogEntryRow: View {
                 .foregroundStyle(.secondary)
         }
         .padding(.vertical, 2)
+    }
+
+    private static func parentPath(from relativePath: String) -> String? {
+        let components = relativePath.split(separator: "/")
+        guard components.count > 1 else { return nil }
+        return components.dropLast().joined(separator: " / ")
     }
 
     private var actionIcon: String {

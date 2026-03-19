@@ -44,6 +44,8 @@ struct DiskSpaceInfo: Sendable {
 protocol SMBServiceProtocol: Sendable {
     func connect(host: String, port: UInt16, share: String) async throws
     func disconnect() async throws
+    /// Switch to a different share on the same host without reconnecting.
+    func switchShare(_ share: String) async throws
     func listDirectory(at path: String) async throws -> [RemoteFileInfo]
     func fileExists(at path: String) async throws -> Bool
     func createDirectory(at path: String) async throws

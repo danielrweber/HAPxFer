@@ -329,11 +329,23 @@ struct FolderRow: View {
                     .truncationMode(.middle)
 
                 if folder.isEnabled {
-                    Toggle("Override Artist tag from folder name", isOn: $folder.overrideArtistFromFolder)
+                    HStack(spacing: 12) {
+                        Picker("", selection: $folder.destination) {
+                            ForEach(MonitoredFolder.Destination.allCases, id: \.self) { dest in
+                                Text(dest.displayName).tag(dest)
+                            }
+                        }
+                        .labelsHidden()
+                        .fixedSize()
                         .font(.caption)
-                        .toggleStyle(.switch)
                         .controlSize(.mini)
-                        .help("Sets the Artist metadata field to the first subfolder name (artist folder) before uploading. Source files are never modified.")
+
+                        Toggle("Override Artist tag", isOn: $folder.overrideArtistFromFolder)
+                            .font(.caption)
+                            .toggleStyle(.switch)
+                            .controlSize(.mini)
+                            .help("Sets the Artist metadata field to the first subfolder name (artist folder) before uploading. Source files are never modified.")
+                    }
                 }
             }
 

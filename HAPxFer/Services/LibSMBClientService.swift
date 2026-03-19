@@ -137,6 +137,28 @@ final class LibSMBClientService: SMBServiceProtocol, @unchecked Sendable {
         }
     }
 
+    func switchShare(_ share: String) async throws {
+        guard connectedHost != nil else { throw SMBError.notConnected }
+        // With the deprecated smbc_* global API, we just change the share name.
+        // All subsequent smbURL() calls will use the new share.
+        try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<Void, Error>) in
+            smbQueue.async { [self] in
+                let host = self.connectedHost!
+                let shareURL = "smb://\(host)/\(share)"
+                let dirHandle = smbc_opendir(shareURL)
+                if dirHandle < 0 {
+                    let errMsg = String(cString: strerror(errno))
+                    continuation.resume(throwing: SMBError.connectionFailed("Cannot open share \(share): \(errMsg)"))
+                    return
+                }
+                smbc_closedir(dirHandle)
+                self.connectedShare = share
+                logger.info("Switched to share: \(share)")
+                continuation.resume()
+            }
+        }
+    }
+
     func disconnect() async throws {
         await withCheckedContinuation { (continuation: CheckedContinuation<Void, Never>) in
             smbQueue.async { [self] in

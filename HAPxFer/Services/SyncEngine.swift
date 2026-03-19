@@ -24,6 +24,8 @@ private let logger = Logger(subsystem: "com.hapxfer", category: "SyncEngine")
 struct TransferItem: Identifiable, Sendable {
     let id: String
     let fileName: String
+    /// The relative path including parent folders (e.g. "Artist/Album/Track.flac")
+    let relativePath: String
     let totalBytes: Int64
     var bytesTransferred: Int64 = 0
     var status: Status = .waiting
@@ -108,6 +110,15 @@ final class SyncEngine {
             failedCount = 0
 
             for folder in folders {
+                // Switch to the correct share for this folder's destination
+                let targetShare = folder.destinationShare
+                do {
+                    try await smbService.switchShare(targetShare)
+                } catch {
+                    logger.error("Failed to switch to share \(targetShare) for \(folder.displayName): \(error.localizedDescription)")
+                    continue
+                }
+
                 let folderPath = folder.path
                 let folderRemotePath = folder.remotePath
                 let folderDisplayName = folder.displayName
@@ -224,6 +235,7 @@ final class SyncEngine {
                             let item = TransferItem(
                                 id: "del:\(deletion.relativePath)",
                                 fileName: (deletion.relativePath as NSString).lastPathComponent,
+                                relativePath: deletion.relativePath,
                                 totalBytes: deletion.size,
                                 isDeletion: true
                             )
@@ -482,6 +494,7 @@ final class SyncEngine {
             let item = TransferItem(
                 id: file.relativePath,
                 fileName: (file.relativePath as NSString).lastPathComponent,
+                relativePath: file.relativePath,
                 totalBytes: file.size,
                 status: .waiting
             )

@@ -26,9 +26,28 @@ final class MonitoredFolder {
     var lastSyncDate: Date?
     /// Destination path on the remote share (defaults to folder name)
     var remotePath: String
+    /// Which HAP storage to sync to: "HAP_Internal" or "HAP_External"
+    var destinationShare: String = Destination.internal.rawValue
 
     @Relationship(deleteRule: .cascade, inverse: \SyncRecord.folder)
     var syncRecords: [SyncRecord] = []
+
+    enum Destination: String, CaseIterable, Sendable {
+        case `internal` = "HAP_Internal"
+        case external = "HAP_External"
+
+        var displayName: String {
+            switch self {
+            case .internal: return "Internal HDD"
+            case .external: return "External USB"
+            }
+        }
+    }
+
+    var destination: Destination {
+        get { Destination(rawValue: destinationShare) ?? .internal }
+        set { destinationShare = newValue.rawValue }
+    }
 
     init(path: String, bookmarkData: Data? = nil, remotePath: String? = nil) {
         self.path = path
